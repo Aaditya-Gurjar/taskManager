@@ -24,10 +24,11 @@ export const createTask = async (data) => {
     }
 };
 
-export const getAllTasks = async () => {
+export const getAllTasks = async (data) => {
     try {
-        const response = await axios.get(
+        const response = await axios.post(
             `${BASE_URL}task/getTasks`,
+            data,
             {
                 headers: {
                     "Content-Type": "application/json"

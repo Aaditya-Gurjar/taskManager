@@ -8,7 +8,7 @@ import ProtectedRoute from "./components/ProtectedRoute"
 
 function App() {
   return (
-    <div className="flex justify-center items-center min-h-screen">
+    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-50 to-purple-100">
       <Routes>
         <Route path="/" element={<Navigate to="/login" replace />} />
 

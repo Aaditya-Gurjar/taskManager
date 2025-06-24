@@ -107,9 +107,15 @@ const deleteTask = async (req, res) => {
 }
 const getTask = async (req, res) => {
     try {
+        const {page, pageSize} = req.body;
+        console.log("page", page, "pageSize", pageSize)
+        const skip = page * pageSize;
+        
+
+
         const userId = req.user; // Assuming user ID is set in the request by auth middleware
         // Fetch tasks for the user
-        const tasks = await taskModel.find({ user: userId });
+        const tasks = await taskModel.find({ user: userId }).skip(skip).limit(pageSize);
         res.status(200).json({
             message: "Tasks fetched successfully",
             tasks: tasks.map(task => ({

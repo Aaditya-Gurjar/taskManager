@@ -41,6 +41,10 @@ export default function Dashboard() {
   };
   const [taskData, setTaskData] = useState({ title: '', description: '', completed: false })
   const [getTasks, setTasks] = useState([]);
+  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 2 })
+
+  // const paginationModel = { page: 0, pageSize: 2 };
+  console.log("paginationModel", paginationModel)
 
 
 
@@ -116,7 +120,7 @@ export default function Dashboard() {
 
   const fetchTasks = async () => {
     try {
-      const res = await getAllTasks();
+      const res = await getAllTasks(paginationModel);
       setTasks(res.tasks.map((task, index) => ({
         ...task,
         id: task._id || task.id, // use _id if available
@@ -140,7 +144,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     fetchTasks();
-  }, [])
+  }, [paginationModel])
 
   const columns = [
     { field: 'id', headerName: 'ID', width: 150 },
@@ -182,7 +186,6 @@ export default function Dashboard() {
       ),
     },
   ];
-  const paginationModel = { page: 0, pageSize: 2 };
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-blue-50 to-purple-100 p-6">
@@ -209,6 +212,7 @@ export default function Dashboard() {
             initialState={{ pagination: { paginationModel } }}
             pageSizeOptions={[2, 5, 10]}
             checkboxSelection
+            onPaginationModelChange = {(newModel) => setPaginationModel(newModel)}
             sx={{ border: 0, background: 'transparent' }}
             className="bg-white"
           />
