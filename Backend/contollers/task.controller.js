@@ -7,7 +7,7 @@ const createTask = async (req, res) => {
         const userId = req.user; // Assuming user ID is set in the request by auth middleware
         // Check for required fields
         if (!title || !description) {
-            return res.status(400).json({ message: "Title and description are required" });
+            return res.status(400).json({ status : false,  message: "Title and description are required" });
         }
         // Create new task
         const newTask = await taskModel.create({
@@ -17,6 +17,7 @@ const createTask = async (req, res) => {
             user: userId
         });
         res.status(201).json({
+            status : true,
             message: "Task created successfully",
             task: {
                 id: newTask._id,
@@ -47,7 +48,7 @@ const updateTask = async (req, res) => {
 
         // Check if the user is authorized to update this task
         if (task.user.toString() !== userId) {
-            return res.status(403).json({ message: "Not authorized to update this task" });
+            return res.status(403).json({ status:false,  message: "Not authorized to update this task" });
         }
 
         // Update task fields
@@ -59,6 +60,7 @@ const updateTask = async (req, res) => {
         const updatedTask = await task.save();
 
         res.status(200).json({
+            status : true,
             message: "Task updated successfully",
             task: {
                 id: updatedTask._id,
@@ -100,7 +102,7 @@ const deleteTask = async (req, res) => {
         })
     } catch (error) {
         console.error("Error deleting task:", error);
-        res.status(500).json({ message: "Internal server error" });
+        res.status(500).json({status:false, message: "Internal server error" });
     }
 }
 const getTask = async (req, res) => {
